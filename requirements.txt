@@ -1,3 +1,9 @@
+# 1) Install PyTorch for your CUDA version first, e.g.:
+#    pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
+# 2) pip install -r requirements.txt
+# 3) pip install flash-attn==2.3.6 --no-build-isolation
+#    (flash-attn's setup imports torch; pip's build isolation has no torch unless you disable it.)
+
 absl-py==2.0.0
 accelerate==0.25.0
 addict==2.4.0
@@ -23,7 +29,7 @@ exceptiongroup==1.2.0
 fastapi==0.100.1
 ffmpy==0.3.1
 filelock==3.13.1
-flash-attn==2.3.6
+# flash-attn==2.3.6 will install separately with pip install flash-attn==2.3.6 --no-build-isolation
 fonttools==4.47.0
 frozenlist==1.4.1
 fsspec==2023.12.2
