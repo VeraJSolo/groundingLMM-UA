@@ -293,4 +293,7 @@ if __name__ == "__main__":
         description=description, article=article, theme=gr.themes.Soft(), examples=examples, allow_flagging="auto", )
 
     demo.queue()
-    demo.launch()
+    # On HPC, the compute node's `localhost` is usually not reachable from your laptop.
+    # `share=True` makes Gradio create a public share link and prevents the launch-time
+    # ValueError about localhost accessibility.
+    demo.launch(share=True, server_name="0.0.0.0", server_port=7860)
