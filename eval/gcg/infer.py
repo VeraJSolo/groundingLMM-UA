@@ -22,6 +22,8 @@ def parse_args():
     parser.add_argument("--hf_model_path", required=True, help="The model path in huggingface format.")
     parser.add_argument("--img_dir", required=False, default="./data/GranDf/GranDf_HA_images/val_test",
                         help="The directory containing images to run inference.")
+    parser.add_argument("--prompt", type=str, default="Could you please give me a detailed description of the image? Please respond with interleaved \
+    segmentation masks for the corresponding parts of the answer.", help="Custom text prompt")
     parser.add_argument("--output_dir", required=True, help="The directory to store the response in json format.")
 
     parser.add_argument("--image_size", default=1024, type=int, help="image size")
@@ -143,8 +145,10 @@ if __name__ == "__main__":
     model.eval()  # Model should be in evaluation mode for inference
 
     # Prompt model to return grounded conversations
-    instruction = "Could you please give me a detailed description of the image? Please respond with interleaved \
-    segmentation masks for the corresponding parts of the answer."
+    #instruction = "Could you please give me a detailed description of the image? Please respond with interleaved \
+    #segmentation masks for the corresponding parts of the answer."
+    instruction = args.prompt if args.prompt is not None else \
+        "Could you please give me a detailed description of the image?"
 
     # Create output directory if not exists already
     os.makedirs(args.output_dir, exist_ok=True)
