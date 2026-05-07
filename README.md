@@ -1,3 +1,6 @@
+### INFO 698 Capstone Project
+⭐ See "capstone_testing" folder for python scripts and slurm files to run reference images and prompts.
+
 # GLaMM <img src="images/logos/face.png" height="40">: Pixel Grounding Large Multimodal Model [CVPR 2024]
 <p align="center">
     <img src="https://i.imgur.com/waxVImv.png" alt="Oryx Video-ChatGPT">
