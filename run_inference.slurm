@@ -18,17 +18,17 @@
 source ~/.bashrc
 conda activate glamm
 
-# Go to repo
+# Replace with destination of 
 cd "/home/u32/verasjackson/groundingLMM-UA"
 
 # FIX PYTHON PATH
 export PYTHONPATH=$(pwd):$PYTHONPATH
 
-# Run inference
-srun python infer_update.py \
-    --hf_model_path "/home/u32/verasjackson/models/GLaMM-FullScope" \
-    --img_dir "/home/u32/verasjackson/groundingLMM-UA/image_dataset/test/reference" \
-    --output_dir "/home/u32/verasjackson/groundingLMM-UA/output_inference_colormerging2" \
-    --prompt_dir "/home/u32/verasjackson/groundingLMM-UA/image_dataset/test/text" \
+# Run inference (replacing with appropraite destination of images and prompts)
+srun python capstone_testing/infer.py \
+    --hf_model_path "/home/u32/verasjackson/models/GLaMM-FullScope" \ # replace with where you have downloaded GLaMM-FullScope model
+    --img_dir "/home/u32/verasjackson/groundingLMM-UA/capstone_testing/image_dataset/test/reference" \
+    --output_dir "/home/u32/verasjackson/groundingLMM-UA/capstone_testing/output_inference_colormerging2" \
+    --prompt_dir "/home/u32/verasjackson/groundingLMM-UA/capstone_testing/image_dataset/test/text" \
     --prompt_prefix "Please respond with segmentation mask for the TARGET. Take note that when colors overlap, the average is shown (e.g. red and blue will appear as purple, etc)." 
 
