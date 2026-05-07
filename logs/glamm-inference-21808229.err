@@ -1,0 +1,13 @@
+usage: infer_concat.py [-h] --hf_model_path HF_MODEL_PATH [--img_dir IMG_DIR]
+                       [--prompt_dir PROMPT_DIR | --prompt PROMPT]
+                       [--fallback_prompt FALLBACK_PROMPT] --output_dir
+                       OUTPUT_DIR [--panel_width PANEL_WIDTH]
+                       [--separator SEPARATOR] [--image_size IMAGE_SIZE]
+                       [--model_max_length MODEL_MAX_LENGTH]
+                       [--use_mm_start_end]
+                       [--conv_type {llava_v1,llava_llama_2}]
+                       [--batch_size_per_gpu BATCH_SIZE_PER_GPU]
+                       [--world_size WORLD_SIZE] [--local_rank LOCAL_RANK]
+                       [--dist_url DIST_URL]
+infer_concat.py: error: unrecognized arguments: --prompt_prefix This image contains multiple side-by-side panels of the same geographic location. Each panel highlights a different region using color coding. Please segment the following TARGET across all panels:
+srun: error: r5u27n1: task 0: Exited with exit code 2

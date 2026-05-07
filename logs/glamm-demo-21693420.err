@@ -1,0 +1,4 @@
+  File "/home/u32/verasjackson/groundingLMM-UA/eval/gcg/inferwimage.py", line 175
+    img = cv2.imread(image_path)
+TabError: inconsistent use of tabs and spaces in indentation
+srun: error: r5u17n1: task 0: Exited with exit code 1

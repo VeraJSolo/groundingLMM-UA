@@ -1,0 +1,15 @@
+/var/spool/slurm/d/job21757006/slurm_script: line 22: cd: /path/to/groundingLMM: No such file or directory
+/var/spool/slurm/d/job21757006/slurm_script: line 24: print: command not found
+usage: infer_update.py [-h] --hf_model_path HF_MODEL_PATH [--img_dir IMG_DIR]
+                       [--prompt_dir PROMPT_DIR | --prompt PROMPT]
+                       [--fallback_prompt FALLBACK_PROMPT]
+                       [--prompt_prefix PROMPT_PREFIX] --output_dir OUTPUT_DIR
+                       [--image_size IMAGE_SIZE]
+                       [--model_max_length MODEL_MAX_LENGTH]
+                       [--use_mm_start_end]
+                       [--conv_type {llava_v1,llava_llama_2}]
+                       [--batch_size_per_gpu BATCH_SIZE_PER_GPU]
+                       [--world_size WORLD_SIZE] [--local_rank LOCAL_RANK]
+                       [--dist_url DIST_URL]
+infer_update.py: error: unrecognized arguments: --prompt-dir /home/u32/verasjackson/groundingLMM-UA/test_files/shortlisted_testing_dataset/text
+srun: error: r5u17n1: task 0: Exited with exit code 2

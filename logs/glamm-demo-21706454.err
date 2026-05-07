@@ -1,0 +1,8 @@
+/var/spool/slurm/d/job21706454/slurm_script: line 22: INPUT_DIR: command not found
+/var/spool/slurm/d/job21706454/slurm_script: line 23: PROMPT_DIR: command not found
+/var/spool/slurm/d/job21706454/slurm_script: line 24: PROMPT: command not found
+Traceback (most recent call last):
+  File "/home/u32/verasjackson/groundingLMM-UA/infer_update.py", line 164, in <module>
+    raise ValueError(f"--prompt_dir does not exist or is not a directory: {args.prompt_dir}")
+ValueError: --prompt_dir does not exist or is not a directory: PROMPT_DIR
+srun: error: r5u33n1: task 0: Exited with exit code 1

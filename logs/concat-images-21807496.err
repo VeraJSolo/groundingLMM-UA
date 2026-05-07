@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/home/u32/verasjackson/groundingLMM-UA/concat_images.py", line 160, in <module>
+    groups = discover_groups(args.input_dir, args.ext)
+  File "/home/u32/verasjackson/groundingLMM-UA/concat_images.py", line 77, in discover_groups
+    for entry in sorted(os.listdir(input_dir)):
+FileNotFoundError: [Errno 2] No such file or directory: '/home/u32/verasjackson/dataset_concat/reference'

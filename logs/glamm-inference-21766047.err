@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "/home/u32/verasjackson/groundingLMM-UA/infer_update.py", line 182, in <module>
+    tokenizer = AutoTokenizer.from_pretrained(
+  File "/home/u32/verasjackson/.conda/envs/glamm/lib/python3.10/site-packages/transformers/models/auto/tokenization_auto.py", line 637, in from_pretrained
+    config = AutoConfig.from_pretrained(
+  File "/home/u32/verasjackson/.conda/envs/glamm/lib/python3.10/site-packages/transformers/models/auto/configuration_auto.py", line 905, in from_pretrained
+    config_dict, unused_kwargs = PretrainedConfig.get_config_dict(pretrained_model_name_or_path, **kwargs)
+  File "/home/u32/verasjackson/.conda/envs/glamm/lib/python3.10/site-packages/transformers/configuration_utils.py", line 573, in get_config_dict
+    config_dict, kwargs = cls._get_config_dict(pretrained_model_name_or_path, **kwargs)
+  File "/home/u32/verasjackson/.conda/envs/glamm/lib/python3.10/site-packages/transformers/configuration_utils.py", line 628, in _get_config_dict
+    resolved_config_file = cached_file(
+  File "/home/u32/verasjackson/.conda/envs/glamm/lib/python3.10/site-packages/transformers/utils/hub.py", line 380, in cached_file
+    raise EnvironmentError(
+OSError: /home/u32/verasjackson/outputs/glamm_custom_ft does not appear to have a file named config.json. Checkout 'https://huggingface.co//home/u32/verasjackson/outputs/glamm_custom_ft/None' for available files.
+srun: error: r5u39n1: task 0: Exited with exit code 1

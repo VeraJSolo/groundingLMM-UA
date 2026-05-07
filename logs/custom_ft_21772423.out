@@ -1,0 +1,65 @@
+no change     /opt/ohpc/pub/apps/anaconda/2024.06/condabin/conda
+no change     /opt/ohpc/pub/apps/anaconda/2024.06/bin/conda
+no change     /opt/ohpc/pub/apps/anaconda/2024.06/bin/conda-env
+no change     /opt/ohpc/pub/apps/anaconda/2024.06/bin/activate
+no change     /opt/ohpc/pub/apps/anaconda/2024.06/bin/deactivate
+no change     /opt/ohpc/pub/apps/anaconda/2024.06/etc/profile.d/conda.sh
+no change     /opt/ohpc/pub/apps/anaconda/2024.06/etc/fish/conf.d/conda.fish
+no change     /opt/ohpc/pub/apps/anaconda/2024.06/shell/condabin/Conda.psm1
+no change     /opt/ohpc/pub/apps/anaconda/2024.06/shell/condabin/conda-hook.ps1
+no change     /opt/ohpc/pub/apps/anaconda/2024.06/lib/python3.12/site-packages/xontrib/conda.xsh
+no change     /opt/ohpc/pub/apps/anaconda/2024.06/etc/profile.d/conda.csh
+no change     /home/u32/verasjackson/.bashrc
+No action taken.
+========================================
+Job ID       : 21772423
+Node         : r5u31n1
+GPU          : 0
+Train data   : 
+Val data     : 
+Output       : /home/u32/verasjackson/outputs/glamm_custom_ft/glamm_custom_segm
+Epochs       : 20
+Effective BS : 16
+Start time   : Wed Apr 15 00:03:04 MST 2026
+========================================
+Wed Apr 15 00:03:04 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.95.05              Driver Version: 580.95.05      CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla V100S-PCIE-32GB          On  |   00000000:81:00.0 Off |                    0 |
+| N/A   30C    P0             25W /  250W |       0MiB /  32768MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+>>> DeepSpeed config written to /home/u32/verasjackson/outputs/glamm_custom_ft/ds_config.json
+[2026-04-15 00:03:09,078] [INFO] [real_accelerator.py:161:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[92m---- Initialized tokenizer from: /home/u32/verasjackson/models/GLaMM-FullScope ----[0m
+[92m---- Initialized model from: /home/u32/verasjackson/models/GLaMM-FullScope ----[0m
+[92m---- Initialized vision tower from: openai/clip-vit-large-patch14-336 ----[0m
+[92m---- Total params: 8025218096 | Trainable: 587427044 ----[0m
+  [INFO] Subsampled 150 from 68293 available samples.
+[CustomSegmDataset] split=train | 128 samples (pool=150, val_fraction=0.15, seed=42)
+  [INFO] Subsampled 150 from 68293 available samples.
+[CustomSegmDataset] split=val   | 22 samples (pool=150, val_fraction=0.15, seed=42)
+[INFO] 128 train / 22 val samples | 8 steps/epoch (effective BS=16)
+[2026-04-15 00:03:47,462] [INFO] [logging.py:96:log_dist] [Rank -1] DeepSpeed info: version=0.12.5, git-hash=unknown, git-branch=unknown
+[2026-04-15 00:03:47,462] [INFO] [comm.py:637:init_distributed] cdb=None
+[2026-04-15 00:03:47,462] [INFO] [comm.py:652:init_distributed] Not using the DeepSpeed or dist launchers, attempting to detect MPI environment...
+========================================
+Training exit code : 1
+End time           : Wed Apr 15 00:03:48 MST 2026
+========================================
+========================================
+All done: Wed Apr 15 00:03:48 MST 2026
+========================================

@@ -1,0 +1,10 @@
+usage: infer.py [-h] --hf_model_path HF_MODEL_PATH [--img_dir IMG_DIR]
+                [--prompt PROMPT] --output_dir OUTPUT_DIR
+                [--image_size IMAGE_SIZE]
+                [--model_max_length MODEL_MAX_LENGTH] [--use_mm_start_end]
+                [--conv_type {llava_v1,llava_llama_2}]
+                [--batch_size_per_gpu BATCH_SIZE_PER_GPU]
+                [--world_size WORLD_SIZE] [--local_rank LOCAL_RANK]
+                [--dist_url DIST_URL]
+infer.py: error: the following arguments are required: --output_dir
+srun: error: r5u17n1: task 0: Exited with exit code 2

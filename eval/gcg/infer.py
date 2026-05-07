@@ -1,4 +1,5 @@
 import re
+import os
 import cv2
 import json
 import bleach
@@ -22,11 +23,25 @@ def parse_args():
     parser.add_argument("--hf_model_path", required=True, help="The model path in huggingface format.")
     parser.add_argument("--img_dir", required=False, default="./data/GranDf/GranDf_HA_images/val_test",
                         help="The directory containing images to run inference.")
-    parser.add_argument("--prompt", type=str, default="Could you please give me a detailed description of the image? Please respond with interleaved \
-    segmentation masks for the corresponding parts of the answer.", help="Custom text prompt")
+
+	# --- Prompt arguments (mutually exclusive) ---
+    prompt_group = parser.add_mutually_exclusive_group()
+    prompt_group.add_argument("--prompt_dir", type=str, default=None,
+                              help="Directory of .txt files. Each file must share the "
+                                   "same stem as its corresponding .png "
+                                   "(e.g. GL123_345.txt for GL123_345.png).")
+    prompt_group.add_argument("--prompt", type=str, default="Could you please give me a detailed description of the image? Please respond with interleaved segmentation masks for the corresponding parts of the answer.",
+			 help="Custom text prompt")
+    parser.add_argument("--fallback_prompt", type=str,
+                        default="Could you please give me a detailed description of "
+                                "the image? Please respond with interleaved "
+                                "segmentation masks for the corresponding parts of "
+                                "the answer.",
+                        help="Prompt used when --prompt_dir is set but no matching "
+                             ".txt file is found for an image.")
     parser.add_argument("--output_dir", required=True, help="The directory to store the response in json format.")
 
-    parser.add_argument("--image_size", default=1024, type=int, help="image size")
+    parser.add_argument("--image_size", default=224, type=int, help="image size")
     parser.add_argument("--model_max_length", default=512, type=int)
     parser.add_argument("--use_mm_start_end", action="store_true", default=True)
     parser.add_argument("--conv_type", default="llava_v1", type=str, choices=["llava_v1", "llava_llama_2"])
@@ -163,6 +178,14 @@ if __name__ == "__main__":
     for (image_id, image_path) in tqdm(dataloader):
         image_id, image_path = image_id[0], image_path[0]
 
+	# MANUAL EDIT: Load matching .txt prompt
+	prompt_path = os.path.join(args.prompt_dir, image_id[:-4] + ".txt")
+	if os.path.exists(prompt_path):
+		with open(prompt_path, 'r') as f:
+			instruction = f.read().strip()
+	else:
+		instruction = args.fallback_prompt
+
         output_path = f"{args.output_dir}/{image_id[:-4]}.json"
 
         result_caption, pred_masks, phrases = inference(instruction, image_path)  # GLaMM Inference
@@ -178,6 +201,7 @@ if __name__ == "__main__":
         # Create results dictionary
         result_dict = {
             "image_id": image_id[:-4],
+	    "prompt_used": instruction,
             "caption": result_caption,
             "phrases": phrases,
             "pred_masks": rle_masks
@@ -186,3 +210,13 @@ if __name__ == "__main__":
         # Save the inference results
         with open(output_path, 'w') as f:
             json.dump(result_dict, f)
+
+ 	# Final audit summary
+   	if missing_prompts:
+        	print(f"\n[AUDIT] {len(missing_prompts)} image(s) had no matching .txt prompt and used the fallback:")
+        	for name in missing_prompts:
+            		print(f"  - {name}")
+    	else:
+        	if using_prompt_dir:
+            		print("\n[AUDIT] All images had a matching .txt prompt file.")
+ 

@@ -292,17 +292,26 @@ def initialize_datasets_and_loaders(args, tokenizer):
                       "precision": args.precision, "image_size": args.image_size,
                       "num_classes_per_sample": args.num_classes_per_sample}
 
-    # Training datasets
-    cap_train_dataset = HybridCapDataset(
-        **common_ds_args, dataset=args.cap_dataset, sample_rate=[float(x) for x in args.cap_sample_rates.split(",")],
-        batch_size=args.batch_size, ) if args.use_cap_data else None
-    reg_train_dataset = HybridRegDataset(
-        **common_ds_args, dataset=args.reg_dataset, sample_rate=[float(x) for x in args.reg_sample_rates.split(",")],
-        batch_size=args.batch_size, ) if args.use_reg_data else None
-    seg_train_dataset = HybridSegDataset(
-        **common_ds_args, dataset=args.seg_dataset, sample_rate=[float(x) for x in args.segm_sample_rates.split(",")],
-        semantic_segm_data=args.semantic_segm_data, refer_segm_data=args.refer_segm_data,
-        batch_size=args.batch_size, ) if args.use_segm_data else None
+    # Training datasets (manual)
+    from dataset.my_dataset import MyDataset
+
+    train_dataset = MyDataset(
+        root_dir=args.dataset_dir,
+        tokenizer=tokenizer,
+        image_size=args.image_size
+    )
+    
+    # cap_train_dataset = HybridCapDataset(
+      #  **common_ds_args, dataset=args.cap_dataset, sample_rate=[float(x) for x in args.cap_sample_rates.split(",")],
+      
+    # batch_size=args.batch_size, ) if args.use_cap_data else None
+    #reg_train_dataset = HybridRegDataset(
+     #   **common_ds_args, dataset=args.reg_dataset, sample_rate=[float(x) for x in args.reg_sample_rates.split(",")],
+      #  batch_size=args.batch_size, ) if args.use_reg_data else None
+    #seg_train_dataset = HybridSegDataset(
+     #   **common_ds_args, dataset=args.seg_dataset, sample_rate=[float(x) for x in args.segm_sample_rates.split(",")],
+      #  semantic_segm_data=args.semantic_segm_data, refer_segm_data=args.refer_segm_data,
+       # batch_size=args.batch_size, ) if args.use_segm_data else None
 
     # Validation datasets
     val_datasets = []
@@ -350,22 +359,30 @@ def setup_data_loaders(args, cap_train_dataset, reg_train_dataset, seg_train_dat
         inference=inference_mode
     )
 
-    # Training loaders
-    cap_train_loader = torch.utils.data.DataLoader(
-        cap_train_dataset, sampler=torch.utils.data.distributed.DistributedSampler(
-            cap_train_dataset, **sampler_args
-        ), collate_fn=collate_fn_args_train, **train_loader_args
-    ) if cap_train_dataset is not None else None
-    reg_train_loader = torch.utils.data.DataLoader(
-        reg_train_dataset, sampler=torch.utils.data.distributed.DistributedSampler(
-            reg_train_dataset, **sampler_args
-        ), collate_fn=collate_fn_args_train, **train_loader_args
-    ) if reg_train_dataset is not None else None
-    seg_train_loader = torch.utils.data.DataLoader(
-        seg_train_dataset, sampler=torch.utils.data.distributed.DistributedSampler(
-            seg_train_dataset, **sampler_args
-        ), collate_fn=collate_fn_args_train, **train_loader_args
-    ) if seg_train_dataset is not None else None
+    # Training loaders (manual add)
+    
+    train_loader = torch.utils.data.DataLoader(
+        train_dataset,
+        batch_size=args.batch_size,
+        shuffle=True,
+        num_workers=args.workers
+    )
+    
+    #  cap_train_loader = torch.utils.data.DataLoader(
+    #     cap_train_dataset, sampler=torch.utils.data.distributed.DistributedSampler(
+    #            cap_train_dataset, **sampler_args
+    #       ), collate_fn=collate_fn_args_train, **train_loader_args
+    #  ) if cap_train_dataset is not None else None
+    # reg_train_loader = torch.utils.data.DataLoader(
+    #    reg_train_dataset, sampler=torch.utils.data.distributed.DistributedSampler(
+    #        reg_train_dataset, **sampler_args
+    #    ), collate_fn=collate_fn_args_train, **train_loader_args
+    #) if reg_train_dataset is not None else None
+    #seg_train_loader = torch.utils.data.DataLoader(
+    #    seg_train_dataset, sampler=torch.utils.data.distributed.DistributedSampler(
+    #        seg_train_dataset, **sampler_args
+    #    ), collate_fn=collate_fn_args_train, **train_loader_args
+    #) if seg_train_dataset is not None else None
 
     # Validation loader
     val_loader = None
@@ -429,26 +446,8 @@ def main(args):
         setup_data_loaders(args, cap_train_dataset, reg_train_dataset, seg_train_dataset, val_datasets, tokenizer))
 
     # Determine active datasets and their weights
-    active_dataloaders = []
-    weights = []
-
-    if args.use_cap_data:
-        active_dataloaders.append(('cap', cap_train_loader))
-        weights.append(args.weight_cap)
-    if args.use_reg_data:
-        active_dataloaders.append(('reg', reg_train_loader))
-        weights.append(args.weight_reg)
-    if args.use_segm_data:
-        active_dataloaders.append(('seg', seg_train_loader))
-        weights.append(args.weight_segm)
-
-    # Assert that at least one dataset is active
-    assert active_dataloaders, "Error: At least one dataset (segm, reg, or cap) must be active."
-
-    dataset_iters = {'cap': iter(cap_train_loader) if args.use_cap_data else None,
-                     'reg': iter(reg_train_loader) if args.use_reg_data else None,
-                     'seg': iter(seg_train_loader) if args.use_segm_data else None, }
-
+    # active_dataloaders = [] rest in notes
+    
     writer = initialize_environment(args)
 
     if args.eval_only:
@@ -464,9 +463,7 @@ def main(args):
 
         step_choices = random.choices(dataset_choices, weights=weights, k=args.steps_per_epoch)
 
-        dataset_iters = train(
-            active_dataloaders, model_engine, epoch, scheduler, writer, dataset_iters, args, step_choices
-        )
+        dataset_iters = train(train_loader, model_engine, epoch, scheduler, writer, args)
 
         if args.mask_validation:
             giou, ciou = validate_model_performance(val_loader, model_engine, epoch, writer, args)
@@ -538,29 +535,22 @@ def train(active_datasets, model, epoch, scheduler, writer, dataset_iters, args,
 
     model.train()
     end = time.time()
-    for global_step in range(args.steps_per_epoch):
-        for _ in range(args.grad_accumulation_steps):
-            # Select data loader based on step choice
-            dataset_type, data_loader = active_datasets[step_choices[global_step]]
-            data_batch, new_iter = get_next_input(dataset_iters[dataset_type], data_loader)
-            dataset_iters[dataset_type] = new_iter
+    
+    #manual addition
+    
+    for data_batch in train_loader:
+        data_batch = dict_to_cuda(data_batch)
 
-            data_time.update(time.time() - end)
-            # Prepare data and convert relevant tensors to bfloat16
-            data_batch = dict_to_cuda(data_batch)
-            for key in ["global_enc_images", "grounding_enc_images"]:
-                if data_batch[key] is not None:
-                    data_batch[key] = data_batch[key].bfloat16()
+        for key in ["global_enc_images", "grounding_enc_images"]:
+            data_batch[key] = data_batch[key].bfloat16()
 
-            output_dict = model(**data_batch)
+        output_dict = model(**data_batch)
 
-            # Update training metrics
-            for key, tracker in trackers.items():
-                if key in output_dict:
-                    tracker.update(output_dict[key].item(), data_batch["global_enc_images"].size(0))
-
-            model.backward(output_dict["loss"])
-            model.step()
+        model.backward(output_dict["loss"])
+        model.step()
+        
+    #for global_step in range(args.steps_per_epoch): .. (rest in notes)
+        
 
         batch_time.update(time.time() - end)
         end = time.time()

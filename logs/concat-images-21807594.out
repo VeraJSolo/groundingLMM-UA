@@ -1,0 +1,49 @@
+Scanning subfolders in: /home/u32/verasjackson/groundingLMM-UA/dataset_concat/reference
+
+Found 3 image groups
+Panels per group: min=3, max=10, avg=7.3
+Separator       : 10px white gap between panels
+
+  GL092_228  (3 panels)
+    + GL092_228_001_001.png
+    + GL092_228_001_002.png
+    + GL092_228_001_003.png
+    -> GL092_228.png  (1520x500px)
+
+  GL219_222  (10 panels)
+    + GL219_222_001_001.png
+    + GL219_222_001_002.png
+    + GL219_222_001_003.png
+    + GL219_222_001_004.png
+    + GL219_222_001_005.png
+    + GL219_222_001_006.png
+    + GL219_222_001_007.png
+    + GL219_222_001_008.png
+    + GL219_222_001_009.png
+    + GL219_222_001_010.png
+    -> GL219_222.png  (5090x500px)
+
+  GL636_444  (9 panels)
+    + GL636_444_001_001.png
+    + GL636_444_001_002.png
+    + GL636_444_001_003.png
+    + GL636_444_001_004.png
+    + GL636_444_001_005.png
+    + GL636_444_001_006.png
+    + GL636_444_001_007.png
+    + GL636_444_001_008.png
+    + GL636_444_001_009.png
+    -> GL636_444.png  (4580x500px)
+
+====================================================
+Done. 3 / 3 groups processed.
+
+Concatenated images saved to: /home/u32/verasjackson/groundingLMM-UA/dataset_concat/concatenated_images
+
+Next step - run inference on the concatenated images:
+  python eval/gcg/infer.py \
+      --hf_model_path  <your_model> \
+      --img_dir        /home/u32/verasjackson/groundingLMM-UA/dataset_concat/concatenated_images \
+      --prompt_dir     <your_prompt_dir> \
+      --output_dir     <your_output_dir>
+====================================================
