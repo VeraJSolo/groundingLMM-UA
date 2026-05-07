@@ -1,1 +1,0 @@
-TARGET are (from north clockwise) RED, GREEN, BLUE, YELLOW, MAGENTA, and CYAN.
