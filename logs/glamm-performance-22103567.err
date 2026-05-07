@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "/home/u32/verasjackson/groundingLMM-UA/eval_update.py", line 192, in <module>
-    result = evaluate_single(json_path, gt_path)
-  File "/home/u32/verasjackson/groundingLMM-UA/eval_update.py", line 134, in evaluate_single
-    f1 = compute_f1(pred_binary, gt_binary)
-  File "/home/u32/verasjackson/groundingLMM-UA/eval_update.py", line 60, in compute_f1
-    R = float(intersection) / float(predicted_area)
-ZeroDivisionError: float division by zero

@@ -1,8 +1,0 @@
-Host: r5u33n1.puma.hpc.arizona.edu
-Job ID: 21706456
-Model: /home/u32/verasjackson/models/GLaMM-FullScope
-Using distributed mode: slurm
-world: 1, rank:0, local_rank0, local_size1
-| distributed init (rank 0): env://
-[INFO] Prompt mode: per-image .txt files from '/home/u32/verasjackson/groundingLMM-UA/test_files/shortlisted_testing_dataset/text'
-[INFO] Fallback prompt: "Could you please give me a detailed description of the image? Please respond with interleaved segmentation masks for the corresponding parts of the answer."

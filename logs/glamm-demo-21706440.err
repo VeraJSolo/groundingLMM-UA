@@ -1,7 +1,0 @@
-/var/spool/slurm/d/job21706440/slurm_script: line 22: INPUT_DIR: command not found
-/var/spool/slurm/d/job21706440/slurm_script: line 23: PROMPT_DIR: command not found
-/var/spool/slurm/d/job21706440/slurm_script: line 24: PROMPT: command not found
-  File "/home/u32/verasjackson/groundingLMM-UA/eval/gcg/infer.py", line 182
-    prompt_path = os.path.join(args.prompt_dir, image_id[:-4] + ".txt")
-TabError: inconsistent use of tabs and spaces in indentation
-srun: error: r5u33n1: task 0: Exited with exit code 1

@@ -1,6 +1,0 @@
-Host: r5u31n1.puma.hpc.arizona.edu
-Job ID: 21693453
-Model: /home/u32/verasjackson/models/GLaMM-FullScope
-Using distributed mode: slurm
-world: 1, rank:0, local_rank0, local_size1
-| distributed init (rank 0): env://
